@@ -19,7 +19,7 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
-    "webgme": "latest",
+    "webgme": "^2.42.1",
     "webgme-bindings": "latest",
     "webgme-cli": "^2.8.5"
   }

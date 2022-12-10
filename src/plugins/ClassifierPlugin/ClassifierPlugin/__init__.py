@@ -31,26 +31,26 @@ class ClassifierPlugin(PluginBase):
         commit_info = self.util.save(root_node, self.commit_hash, 'master', 'Python plugin updated the model')
         logger.info('committed :{0}'.format(commit_info))
     
-        # self.transitions = self.getTransitions(nodes);
-        # self.places = self.getPlaces(nodes);
-        # self.arcsPlaceToTrans= self.getArcs("ArcPlaceToTrans", nodes);
-        # self.arcsTransToPlace = self.getArcs("ArcTransToPlace", nodes);
-        # self.inputMat = self.getInput();
-        # self.outputMat = self.getOutput();
+        nodes = self.core.load_own_sub_tree(self.active_node)
+        self.transitions = self.getTransitions(nodes);
+        self.places = self.getPlaces(nodes);
+        self.arcsPlaceToTrans= self.getArcs("ArcPlaceToTrans", nodes);
+        self.arcsTransToPlace = self.getArcs("ArcTransToPlace", nodes);
+        self.inputMat = self.getInput();
+        self.outputMat = self.getOutput();
 
-        # self.sendNotification(self.petriNetsType())
-        self.sendNotification('connection test')
+        self.send_notification(self.petriNetsType())
 
     def getMetaName(self,node):
-        return self.core.getAttribute(self.core.getMetaType(node), "name")
+        return self.core.get_attribute(self.core.get_meta_type(node), "name")
     
     def getArcs(self,metaName,nodes):
         arcs=[]
         for node in nodes:
             if self.getMetaName(node)==metaName:
                 arc={}
-                arc['src']=self.core.getPointerPath(node, 'src')
-                arc['dst']=self.core.getPointerPath(node, 'dst')
+                arc['src']=self.core.get_pointer_path(node, 'src')
+                arc['dst']=self.core.get_pointer_path(node, 'dst')
                 arcs.append(arc)
         return arcs
 
@@ -58,18 +58,18 @@ class ClassifierPlugin(PluginBase):
         places=[]
         for node in nodes:
             if self.getMetaName(node)=='Place':
-                plcae={}
-                place['id']=self.core.getPath(node)
+                place={}
+                place['id']=self.core.get_path(node)
                 place['node']=node
-                places.append(plcae)
+                places.append(place)
         return places
 
     def getTransitions(self,nodes):
-        transitions={}
+        transitions=[]
         for node in nodes:
             if self.getMetaName(node)=='Transition':
                 transition={}
-                transition['id']=self.core.getPath(node)
+                transition['id']=self.core.get_path(node)
                 transition['node']=node
                 transitions.append(transition)
         return transitions
@@ -114,11 +114,11 @@ class ClassifierPlugin(PluginBase):
             for transition in self.transitions:
                 tid=transition['id']
                 pidsIn=[]
-                for pid in inputMat.keys():
+                for pid in self.inputMat.keys():
                     if self.inputMat[pid][tid]==True:
                         pidsIn.append(pid)
                 pidsOut=[]
-                for pid in outputMat.keys():
+                for pid in self.outputMat.keys():
                     if self.outputMat[pid][tid]==True:
                         pidsOut.append(pid)
                 if not (len(pidsIn)==1 and len(pidsOut)==1):
@@ -129,11 +129,11 @@ class ClassifierPlugin(PluginBase):
             for place in self.places:
                 pid=place['id']
                 tidsIn=[]
-                for tid in inputMat[pid].keys():
+                for tid in self.inputMat[pid].keys():
                     if self.inputMat[pid][tid]==True:
                         tidsIn.append(tid)
                 tidsOut=[]
-                for tid in outputMat[pid].keys():
+                for tid in self.outputMat[pid].keys():
                     if self.outputMat[pid][tid]==True:
                         tidsOut.append(tid)
                 if not (len(tidsIn)==1 and len(tidsOut)==1):
@@ -144,7 +144,7 @@ class ClassifierPlugin(PluginBase):
             sourceIds=[]
             for pid in self.inputMat.keys():
                 flag=True
-                for tid in inputMat[pid].keys():
+                for tid in self.inputMat[pid].keys():
                     if self.inputMat[pid][tid]==True:
                         flag=False
                         break
@@ -153,7 +153,7 @@ class ClassifierPlugin(PluginBase):
             sinkIds=[]
             for pid in self.outputMat.keys():
                 flag=True
-                for tid in outputMat[pid].keys():
+                for tid in self.outputMat[pid].keys():
                     if self.outputMat[pid][tid]==True:
                         flag=False
                         break
@@ -207,12 +207,12 @@ class ClassifierPlugin(PluginBase):
                 for pid in self.outputMat.keys():
                     if self.outputMat[pid][tid]==True:
                        tmap[tid].append(pid)
-
+            import operator
             for tkey1 in tmap.keys():
-                t1=tmap[tkey1].sort()
+                t1=tmap[tkey1]
                 for tkey2 in tmap.keys():
-                    t2=tmap[tkey2].sort()
-                    if not (len(list(set(t1)&set(t2)))==0 or t1==t2):
+                    t2=tmap[tkey2]
+                    if not (list(set(t1).intersection(set(t2))) or operator.eq(t1,t2)):
                         return False
             return True
                 
