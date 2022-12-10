@@ -1,59 +1,26 @@
-# WDeStuP
-This repository is intended to server as a bootstrap for a fully docker based Design Studio development with WebGME.
-This way, the developer's computer can remain clean from installation (other than docker and required images) of any additional software.
-So, forget the hassle of installing and running mongoDB, or Nodejs+npm, or Python that all can be challenging based on your actual OS.
-Just enjoy the pure joy of creating a Design Studio that really boost the productivity of engineers!
+# PetriNets
+This repository is intended to give examples of PetriNets. The project is for CS 6388 Model-Integrated Computing. Based on WebGME, It includes the seeds, plugin and visualization. The seeds basically a pre-work of the plugin and visualization. It defines the concept of networks. Plugin is a classifier that can tell which type of petri nets the example belongs to. The visualization is a simulator and shows how the network work. 
+
+## Use case
+Structural analysis may provide insights to biologists. For example, pathways may be automatically constructed from data residing in metabolic and sequence databases. By comparing pathways in different organisms, gaps in specific pathways were identified.4 In Zevedei-Oaneca and Schuster,3 structural analysis explained a surprising finding that indicated that an enzyme (triose-phosphate isomerase) is necessary for the glycolysis pathway, although it seemed possible for this pathway to proceed without it.
+Petri Nets have also been used to model ecological and evolutionary processes and to analyze different modes of evolution.6 In this work, ecological niches were defined as a structural property of PNs: a set of interconnected autonomous places. A niche does not produce any indispensable resource for another niche.
+
 
 ## Initialization
-The easiest way to start using this project is to fork it in git. Alternatively, you can create your empty repository, copy the content and just rename all instances of 'WDeStuP' to your liking. Assuming you fork, you can start-up following this few simple steps:
-- install [Docker-Desktop](https://www.docker.com/products/docker-desktop)
-- clone the repository
-- edit the '.env' file so that the BASE_DIR variable points to the main repository directory
-- `docker-compose up -d`
-- connect to your server at http://localhost:8888
+Just clone the repo and open the dictionary
+- run `apt-get install nodejs` for install nodejs
+- run `npm install` to install dependence
+- run `npm start` to start
+- open browser and input http://localhost:8888 to access the WebGME website. Then creat a new project, choosing the seed project as initializer.
 
-## Main docker commands
-All of the following commands should be used from your main project directory (where this file also should be):
-- To **rebuild** the complete solution `docker-compose build` (and follow with the `docker-compose up -d` to restart the server)
-- To **debug** using the logs of the WebGME service `docker-compose logs webgme`
-- To **stop** the server just use `docker-compose stop`
-- To **enter** the WebGME container and use WebGME commands `docker-compose exec webgme /usr/bin` (you can exit by simply closing the command line with linux command 'exit') 
-- To **clean** the host machine of unused (old version) images `docker system prune -f`
-## Using WebGME commands to add components to your project
-In general, you can use any WebGME commands after you successfully entered the WebGME container. It is important to note that only the src directory is shared between the container and the host machine, so you need to additionally synchronize some files after finishing your changes inside the container! The following is few scenarios that frequently occur:
-### Adding new npm dependency
-When you need to install a new library you should follow these steps:
-- enter the container
-- `npm i -s yourNewPackageName`
-- exit the container
-- copy the package.json file `docker-compose cp webgme:/usr/app/package.json package.json`
+## Modeling
+Open PetriNet instance and switch to the composition page. Drag the place and transition to the right place, make the line with them.
+Now can open the PetriNetSim page to run the simulator.
 
-__Alternatively, run the 'add_npm_package.bat(sh)' and follow instructions.__
-### Adding new interpreter/plugin to your DS
-Follow these steps to add a new plugin:
-- enter the container
-- for JS plugin: `npm run webgme new plugin MyPluginName`
-- for Python plugin: `npm run webgme new plugin --language Python MyPluginName`
-- exit container
-- copy webgme-setup.json `docker-compose cp webgme:/usr/app/webgme-setup.json webgme-setup.json`
-- copy webgme-config `docker-compose cp webgme:/usr/app/config/config.webgme.js config/config.webgme.js`
-
-__Alternatively, run the 'create_plugin.bat(sh)' and follow instructions.__
-### Adding new visualizer to your DS
-Follow these steps to add a new visualizer:
-- enter the container
-- `npm run webgme new viz MyVisualizerName`
-- exit container
-- copy webgme-setup.json `docker-compose cp webgme:/usr/app/webgme-setup.json webgme-setup.json`
-- copy webgme-config `docker-compose cp webgme:/usr/app/config/config.webgme.js config/config.webgme.js`
-
-__Alternatively, run the 'create_visualizer.bat(sh)' and follow instructions.__
-### Adding new seed to your DS
-Follow these steps to add a new seed based on an existing project in your server:
-- enter the container
-- `npm run webgme new seed MyProjectName -n MySeedName`
-- exit container
-- copy webgme-setup.json `docker-compose cp webgme:/usr/app/webgme-setup.json webgme-setup.json`
-- copy webgme-config `docker-compose cp webgme:/usr/app/config/config.webgme.js config/config.webgme.js`
-
-__Alternatively, run the 'create_seed.bat(sh)' and follow instructions.__
+## Function
+I implemented the seeds and plugin. Visualization is difficult for me.
+- Open the state machine composition page and design the network.
+- Press the classify botton on sim page, then will show the petri nets type: statemachine, freechoice, workflow or markedgraph.
+- Press the fire botton to run an events.
+- Press reset botton to reset the machine.
+- Once there is a deadlock, it will be shown.
