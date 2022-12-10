@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "id": "PetriNetsSim",
+    "title": "PetriNetsSim",
+    "panel": "panels/PetriNetsSim/PetriNetsSimPanel",
+    "DEBUG_ONLY": false
+  }
+]

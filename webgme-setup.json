@@ -1,4 +1,29 @@
 {
-  "components": {},
-  "dependencies": {}
+  "components": {
+    "plugins": {
+      "ClassifierPlugin": {
+        "src": "src/plugins/ClassifierPlugin",
+        "test": "test/plugins/ClassifierPlugin"
+      }
+    },
+    "visualizers": {
+      "PetriNetsSim": {
+        "src": "panels/PetriNetsSim/PetriNetsSimPanel",
+        "title": "PetriNetsSim",
+        "panel": "src/visualizers/panels/PetriNetsSim",
+        "secondary": false,
+        "widget": "src/visualizers/widgets/PetriNetsSim"
+      }
+    },
+    "seeds": {
+      "PetriNets": {
+        "src": "src/seeds/PetriNets"
+      }
+    }
+  },
+  "dependencies": {
+    "plugins": {},
+    "visualizers": {},
+    "seeds": {}
+  }
 }

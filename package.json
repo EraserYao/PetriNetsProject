@@ -21,6 +21,6 @@
   "dependencies": {
     "webgme": "latest",
     "webgme-bindings": "latest",
-    "webgme-cli": "latest"
+    "webgme-cli": "^2.8.5"
   }
 }
