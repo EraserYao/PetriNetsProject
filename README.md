@@ -8,9 +8,12 @@ Petri Nets have also been used to model ecological and evolutionary processes an
 
 ## Initialization
 Just clone the repo and open the dictionary
-- run `apt-get install nodejs` for install nodejs
-- run `npm install` to install dependence
-- run `npm start` to start
+We use vitural machine in windows to finish this project.
+- install vitural box, create VM.
+- install Ubuntu.
+- run `apt-get install nodejs` for install nodejs.
+- run `npm install` to install dependence.
+- run `npm start` to start.
 - open browser and input http://localhost:8888 to access the WebGME website. Then creat a new project, choosing the seed project as initializer.
 
 ## Modeling
